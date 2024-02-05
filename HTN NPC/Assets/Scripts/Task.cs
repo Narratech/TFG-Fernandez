@@ -2,21 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum TaskType
+{
+    Primitive, Compound
+}
+
 public class Task
 {
-    private WorldState worldState;
+    protected TaskType taskType;
+    protected CompoundTask parent;
+    protected List<Condition> conditions;
 
-    private List<Condition> conditions;
-    private List<Effect> effects;
-
-    public Task(WorldState worldState)
+    public virtual void SetParent(CompoundTask parent)
     {
-        conditions = new List<Condition>();
-        effects = new List<Effect>();
-        this.worldState = worldState;
+        this.parent = parent;
     }
 
-    public void AddCondition(string name, bool value)
+    public virtual void AddCondition(string name, bool value)
     {
         Condition condition = new Condition(name, value);
         if (!conditions.Contains(condition))
@@ -29,28 +31,7 @@ public class Task
         }
     }
 
-    public void AddEffect(string name, bool value)
-    {
-        Effect effect = new Effect(name, value);
-        if (!effects.Contains(effect))
-        {
-            effects.Add(effect);
-        }
-        else
-        {
-            Debug.Log("This task effect already exist.");
-        }
-    }
-
-    public void ApplyEffects()
-    {
-        foreach (Effect effect in effects)
-        {
-            effect.Apply(worldState);
-        }
-    }
-
-    public bool IsValid()
+    public virtual bool IsValid(WorldState worldState)
     {
         bool result = true;
 
@@ -61,5 +42,15 @@ public class Task
         }
 
         return result;
+    }
+
+    public virtual TaskType GetTaskType()
+    {
+        return taskType;
+    }
+
+    public virtual CompoundTask GetParent()
+    {
+        return parent;
     }
 }
