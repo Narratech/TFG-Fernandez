@@ -26,7 +26,7 @@ public class Planner
     {
         if (parent == null) return;
 
-        while (finalPlan.Peek().GetParent() == parent)
+        while (finalPlan.Count > 0 && finalPlan.Peek().GetParent() == parent)
         {
             finalPlan.Pop();
         }
@@ -34,6 +34,7 @@ public class Planner
 
     private void Plan()
     {
+        finalPlan.Clear();
         tempState = worldState;
         tasksToProcess.Push(rootTask);
 
@@ -68,20 +69,20 @@ public class Planner
 
     public void RunPlan()
     {
-        while (finalPlan.Count > 0)
+        if (finalPlan.Count > 0)
         {
-            PrimitiveTask current = (PrimitiveTask)finalPlan.Pop();
+            PrimitiveTask current = (PrimitiveTask)finalPlan.Peek();
             if (current.IsValid(worldState))
             {
                 Operator action = current.GetOperator();
-                while (action.GetStatus() == Status.Continue)
+                if (action.GetStatus() == Status.Continue)
                 {
                     current.GetOperator().Run();
                 }
-
-                if (action.GetStatus() == Status.Success)
+                else if (action.GetStatus() == Status.Success)
                 {
                     current.ApplyEffects(worldState);
+                    finalPlan.Pop();
                 }
                 else
                 {
@@ -93,7 +94,9 @@ public class Planner
                 Plan();
             }
         }
-
-        Plan();
+        else
+        {
+            Plan();
+        }
     }
 }

@@ -39,6 +39,7 @@ public class Task
         while (i < conditions.Count && result)
         {
             result = conditions[i].IsValid(worldState);
+            i++;
         }
 
         return result;
