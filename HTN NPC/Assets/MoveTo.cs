@@ -45,5 +45,11 @@ public class MoveTo : Operator
     public override void Stop()
     {
         rb.velocity = Vector3.zero;
+        status = Status.Success;
+    }
+
+    public override void Reset()
+    {
+        status = Status.Continue;
     }
 }

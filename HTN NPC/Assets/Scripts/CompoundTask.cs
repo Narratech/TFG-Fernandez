@@ -2,12 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum CompoundType
+{
+    Selector, Sequence
+}
+
 public class CompoundTask : Task
 {
+    private CompoundType compoundType;
     private List<Task> subtasks;
 
-    public CompoundTask()
+    public CompoundTask(CompoundType compoundType)
     {
+        this.compoundType = compoundType;
+
         taskType = TaskType.Compound;
         parent = null;
 
@@ -26,6 +34,11 @@ public class CompoundTask : Task
         {
             Debug.Log("This subtask already exist.");
         }
+    }
+
+    public CompoundType GetCompoundType()
+    {
+        return compoundType;
     }
 
     public List<Task> GetSubtasks()

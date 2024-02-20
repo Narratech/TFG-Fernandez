@@ -14,6 +14,7 @@ public class Operator
 
     public virtual void Run() { }
     public virtual void Stop() { }
+    public virtual void Reset() { }
 
     public virtual Status GetStatus()
     {

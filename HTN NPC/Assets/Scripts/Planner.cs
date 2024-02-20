@@ -10,43 +10,44 @@ public class Planner
     private WorldState worldState;
     private WorldState tempState;
 
-    private Stack<Task> tasksToProcess;
-    private Stack<Task> finalPlan;
+    private Queue<Task> tasksToProcess;
+    private LinkedList<Task> finalPlan;
 
     public Planner(Task rootTask, WorldState worldState)
     {
         this.rootTask = rootTask;
         this.worldState = worldState;
 
-        tasksToProcess = new Stack<Task>();
-        finalPlan = new Stack<Task>();
+        tasksToProcess = new Queue<Task>();
+        finalPlan = new LinkedList<Task>();
     }
 
     private void RestoreToLastCompoundTask(Task parent)
     {
         if (parent == null) return;
 
-        while (finalPlan.Count > 0 && finalPlan.Peek().GetParent() == parent)
+        while (finalPlan.Count > 0 && finalPlan.Last.Value.GetParent() == parent)
         {
-            finalPlan.Pop();
+            finalPlan.RemoveLast();
         }
     }
 
     private void Plan()
     {
         finalPlan.Clear();
+
         tempState = worldState;
-        tasksToProcess.Push(rootTask);
+        tasksToProcess.Enqueue(rootTask);
 
         while (tasksToProcess.Count > 0)
         {
-            currentTask = tasksToProcess.Pop();
+            currentTask = tasksToProcess.Dequeue();
             if (currentTask.GetTaskType() == TaskType.Primitive)
             {
                 if (currentTask.IsValid(tempState))
                 {
                     ((PrimitiveTask)currentTask).ApplyEffects(tempState);
-                    finalPlan.Push(currentTask);
+                    finalPlan.AddLast(currentTask);
                 }
                 else
                 {
@@ -58,9 +59,27 @@ public class Planner
                 if (currentTask.IsValid(tempState))
                 {
                     List<Task> subtasks = ((CompoundTask)currentTask).GetSubtasks();
-                    foreach (Task task in subtasks)
+                    if (((CompoundTask)currentTask).GetCompoundType() == CompoundType.Selector)
                     {
-                        tasksToProcess.Push(task);
+                        int i = 0;
+                        bool valid = false;
+                        while (i < subtasks.Count && !valid)
+                        {
+                            valid = subtasks[i].IsValid(tempState);
+                            if (!valid) i++;
+                        }
+
+                        if (valid)
+                        {
+                            tasksToProcess.Enqueue(subtasks[i]);
+                        }
+                    }
+                    else
+                    {
+                        foreach (Task task in subtasks)
+                        {
+                            tasksToProcess.Enqueue(task);
+                        }
                     }
                 }
             }
@@ -71,18 +90,19 @@ public class Planner
     {
         if (finalPlan.Count > 0)
         {
-            PrimitiveTask current = (PrimitiveTask)finalPlan.Peek();
+            PrimitiveTask current = (PrimitiveTask)finalPlan.First.Value;
             if (current.IsValid(worldState))
             {
                 Operator action = current.GetOperator();
                 if (action.GetStatus() == Status.Continue)
                 {
-                    current.GetOperator().Run();
+                    action.Run();
                 }
                 else if (action.GetStatus() == Status.Success)
                 {
                     current.ApplyEffects(worldState);
-                    finalPlan.Pop();
+                    action.Reset();
+                    finalPlan.RemoveFirst();
                 }
                 else
                 {

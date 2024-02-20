@@ -8,6 +8,8 @@ public class EnemyController : MonoBehaviour
     public float speed = 3;
     public float minDistance = 1;
     public float range = 10;
+    public float moveTime = 1;
+    public float wanderTime = 3;
 
     private WorldState worldState;
     private Planner planner;
@@ -18,17 +20,23 @@ public class EnemyController : MonoBehaviour
         worldState = new WorldState();
         worldState.AddProperty("InRange", false);
 
-        root = new CompoundTask();
+        root = new CompoundTask(CompoundType.Selector);
 
         planner = new Planner(root, worldState);
 
-        PrimitiveTask primitiveTask = new PrimitiveTask();
-        root.AddTask(primitiveTask);
+        PrimitiveTask moveToTask = new PrimitiveTask();
+        root.AddTask(moveToTask);
 
         MoveTo moveTo = new MoveTo(transform, target, GetComponent<Rigidbody>(), speed, minDistance);
-        primitiveTask.SetOperator(moveTo);
+        moveToTask.SetOperator(moveTo);
 
-        primitiveTask.AddCondition("InRange", true);
+        moveToTask.AddCondition("InRange", true);
+
+        PrimitiveTask wanderTask = new PrimitiveTask();
+        root.AddTask(wanderTask);
+
+        Wander wander = new Wander(GetComponent<Rigidbody>(), speed, moveTime, wanderTime);
+        wanderTask.SetOperator(wander);
     }
 
     private void Update()
