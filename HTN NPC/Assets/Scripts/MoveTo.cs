@@ -1,55 +1,50 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class MoveTo : Operator
 {
-    private Transform currentPosition;
+    private NavMeshAgent navMeshAgent;
     private Transform targetPosition;
-    private Rigidbody rb;
 
-    private float speed;
-    private float minDistance;
+    private float threshold = 0.1f;
 
-    private Vector3 direction;
-
-    public MoveTo(Transform currentPosition, Transform targetPosition, Rigidbody rb, float speed, float minDistance)
+    public MoveTo(NavMeshAgent navMeshAgent, Transform targetPosition)
     {
-        this.currentPosition = currentPosition;
+        this.navMeshAgent = navMeshAgent;
         this.targetPosition = targetPosition;
-        this.rb = rb;
-        this.speed = speed;
-        this.minDistance = minDistance;
     }
 
     public override void Run()
     {
-        direction = targetPosition.position - currentPosition.position;
-        direction = direction.normalized;
+        NavMeshPath path = new NavMeshPath();
+        navMeshAgent.CalculatePath(targetPosition.position, path);
 
-        float distance = Vector3.Distance(targetPosition.position, currentPosition.position);
-
-        if (distance > minDistance)
+        if (path.status == NavMeshPathStatus.PathComplete)
         {
-            if (rb.velocity.magnitude < speed)
+            navMeshAgent.SetDestination(targetPosition.position);
+
+            if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance + threshold)
             {
-                rb.AddForce(direction * speed);
+                Stop();
             }
         }
         else
         {
-            Stop();
+            status = Status.Failure;
         }
     }
 
     public override void Stop()
     {
-        rb.velocity = Vector3.zero;
+        navMeshAgent.isStopped = true;
         status = Status.Success;
     }
 
     public override void Reset()
     {
+        navMeshAgent.ResetPath();
         status = Status.Continue;
     }
 }

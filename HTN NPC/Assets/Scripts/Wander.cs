@@ -1,63 +1,50 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Wander : Operator
 {
-    private Rigidbody rb;
+    private NavMeshAgent navMeshAgent;
+    private Transform startPosition;
+    private Transform endPosition;
 
-    private float speed;
-    private float moveTime;
-    private float wanderTime;
+    private Vector3 position;
 
-    private float mTimer;
-    private float wTimer;
-    private Vector3 direction;
+    private float threshold = 0.1f;
 
-    public Wander(Rigidbody rb, float speed, float moveTime, float wanderTime)
+    public Wander(NavMeshAgent navMeshAgent, Transform startPosition, Transform endPosition)
     {
-        this.rb = rb;
-        this.speed = speed;
-        this.moveTime = moveTime;
-        this.wanderTime = wanderTime;
+        this.navMeshAgent = navMeshAgent;
+        this.startPosition = startPosition;
+        this.endPosition = endPosition;
 
-        mTimer = moveTime;
-        wTimer = wanderTime;
+        position = endPosition.position;
     }
 
     public override void Run()
     {
-        mTimer -= Time.deltaTime;
-        if (mTimer < 0)
-        {
-            mTimer = moveTime;
-            direction = Random.insideUnitSphere;
-            direction.y = 0;
-            direction = direction.normalized;
-        }
+        NavMeshPath path = new NavMeshPath();
+        navMeshAgent.CalculatePath(position, path);
 
-        wTimer -= Time.deltaTime;
-        if (wTimer < 0)
+        if (path.status == NavMeshPathStatus.PathComplete)
         {
-            Stop();
-        }
+            navMeshAgent.SetDestination(position);
 
-        if (rb.velocity.magnitude < speed)
+            if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance + threshold)
+            {
+                position = position == startPosition.position ? endPosition.position : startPosition.position;
+            }
+        }
+        else
         {
-            rb.AddForce(direction * speed);
+            status = Status.Failure;
         }
-    }
-
-    public override void Stop()
-    {
-        status = Status.Success;
     }
 
     public override void Reset()
     {
+        navMeshAgent.ResetPath();
         status = Status.Continue;
-
-        mTimer = moveTime;
-        wTimer = wanderTime;
     }
 }

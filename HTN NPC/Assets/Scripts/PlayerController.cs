@@ -1,35 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 5;
+    public Transform target;
 
-    private Rigidbody rb;
-    private Vector3 direction;
+    private NavMeshAgent agent;
+
+    private WorldState worldState;
+    private Planner planner;
+    private CompoundTask root;
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        agent = GetComponent<NavMeshAgent>();
+
+        worldState = new WorldState();
+
+        root = new CompoundTask(CompoundType.Selector);
+
+        planner = new Planner(root, worldState);
+
+        PrimitiveTask moveToTask = new PrimitiveTask();
+        root.AddTask(moveToTask);
+
+        MoveTo moveTo = new MoveTo(agent, target);
+        moveToTask.SetOperator(moveTo);
     }
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.W))
-            direction = Vector3.forward;
-        else if (Input.GetKey(KeyCode.S))
-            direction = Vector3.back;
-        else if (Input.GetKey(KeyCode.D))
-            direction = Vector3.right;
-        else if (Input.GetKey(KeyCode.A))
-            direction = Vector3.left;
-        else
-            direction = Vector3.zero;
-
-        if (rb.velocity.magnitude < speed)
-        {
-            rb.AddForce(direction * speed);
-        }
+        planner.RunPlan();
     }
 }
