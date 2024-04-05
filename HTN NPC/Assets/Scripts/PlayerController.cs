@@ -5,9 +5,12 @@ using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
-    public Transform target;
+    public bool useHTN = true;
+
+    public Transform[] wayPoints;
 
     private NavMeshAgent agent;
+    private BehaviorExecutor executor;
 
     private WorldState worldState;
     private Planner planner;
@@ -16,6 +19,9 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        executor = GetComponent<BehaviorExecutor>();
+
+        if (useHTN) executor.enabled = false;
 
         worldState = new WorldState();
 
@@ -23,15 +29,15 @@ public class PlayerController : MonoBehaviour
 
         planner = new Planner(root, worldState);
 
-        PrimitiveTask moveToTask = new PrimitiveTask();
-        root.AddTask(moveToTask);
+        PrimitiveTask moveTask = new PrimitiveTask();
+        root.AddTask(moveTask);
 
-        MoveTo moveTo = new MoveTo(agent, target);
-        moveToTask.SetOperator(moveTo);
+        MoveTo moveTo = new MoveTo(agent, wayPoints);
+        moveTask.SetOperator(moveTo);
     }
 
     private void Update()
     {
-        planner.RunPlan();
+        if (useHTN) planner.RunPlan();
     }
 }

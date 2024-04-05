@@ -6,28 +6,32 @@ using UnityEngine.AI;
 public class MoveTo : Operator
 {
     private NavMeshAgent navMeshAgent;
-    private Transform targetPosition;
+    private Transform[] wayPoints;
 
+    private int currentPoint = 0;
     private float threshold = 0.1f;
 
-    public MoveTo(NavMeshAgent navMeshAgent, Transform targetPosition)
+    public MoveTo(NavMeshAgent navMeshAgent, Transform[] wayPoints)
     {
         this.navMeshAgent = navMeshAgent;
-        this.targetPosition = targetPosition;
+        this.wayPoints = wayPoints;
     }
 
     public override void Run()
     {
         NavMeshPath path = new NavMeshPath();
-        navMeshAgent.CalculatePath(targetPosition.position, path);
+        navMeshAgent.CalculatePath(wayPoints[currentPoint].position, path);
 
         if (path.status == NavMeshPathStatus.PathComplete)
         {
-            navMeshAgent.SetDestination(targetPosition.position);
+            navMeshAgent.SetDestination(wayPoints[currentPoint].position);
 
             if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance + threshold)
             {
-                Stop();
+                if (currentPoint < wayPoints.Length - 1)
+                    currentPoint++;
+                else
+                    Stop();
             }
         }
         else
@@ -44,6 +48,8 @@ public class MoveTo : Operator
 
     public override void Reset()
     {
+        currentPoint = 0;
+        navMeshAgent.isStopped = false;
         navMeshAgent.ResetPath();
         status = Status.Continue;
     }
