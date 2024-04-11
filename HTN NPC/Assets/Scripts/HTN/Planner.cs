@@ -91,26 +91,29 @@ public class Planner
         if (finalPlan.Count > 0)
         {
             PrimitiveTask current = (PrimitiveTask)finalPlan.First.Value;
+            Operator action = current.GetOperator();
+
             if (current.IsValid(worldState))
             {
-                Operator action = current.GetOperator();
                 if (action.GetStatus() == Status.Continue)
                 {
                     action.Run();
                 }
                 else if (action.GetStatus() == Status.Success)
                 {
-                    current.ApplyEffects(worldState);
                     action.Reset();
+                    current.ApplyEffects(worldState);
                     finalPlan.RemoveFirst();
                 }
                 else
                 {
+                    action.Reset();
                     Plan();
                 }
             }
             else
             {
+                action.Reset();
                 Plan();
             }
         }

@@ -11,7 +11,7 @@ public class MoveTo : Operator
     private int currentPoint = 0;
     private float threshold = 0.1f;
 
-    public MoveTo(NavMeshAgent navMeshAgent, Transform[] wayPoints)
+    public MoveTo(NavMeshAgent navMeshAgent, Transform[] wayPoints) : base(null)
     {
         this.navMeshAgent = navMeshAgent;
         this.wayPoints = wayPoints;
@@ -24,32 +24,32 @@ public class MoveTo : Operator
 
         if (path.status == NavMeshPathStatus.PathComplete)
         {
+            navMeshAgent.isStopped = false;
             navMeshAgent.SetDestination(wayPoints[currentPoint].position);
 
             if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance + threshold)
             {
                 if (currentPoint < wayPoints.Length - 1)
+                {
                     currentPoint++;
+                }
                 else
-                    Stop();
+                {
+                    navMeshAgent.isStopped = true;
+                    status = Status.Success;
+                }
             }
         }
         else
         {
+            navMeshAgent.isStopped = true;
             status = Status.Failure;
         }
-    }
-
-    public override void Stop()
-    {
-        navMeshAgent.isStopped = true;
-        status = Status.Success;
     }
 
     public override void Reset()
     {
         currentPoint = 0;
-        navMeshAgent.isStopped = false;
         navMeshAgent.ResetPath();
         status = Status.Continue;
     }

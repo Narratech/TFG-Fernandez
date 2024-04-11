@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class WorldState
 {
-    private Dictionary<string, bool> state;
+    private Dictionary<string, object> state;
 
     public WorldState()
     {
-        state = new Dictionary<string, bool>();
+        state = new Dictionary<string, object>();
     }
 
-    public void AddProperty(string key, bool value)
+    public void AddProperty(string key, object value)
     {
         if (!state.ContainsKey(key))
         {
@@ -23,7 +23,7 @@ public class WorldState
         }
     }
 
-    public void ChangeValue(string key, bool value)
+    public void ChangeValue(string key, object value)
     {
         if (state.ContainsKey(key))
         {
@@ -35,16 +35,16 @@ public class WorldState
         }
     }
 
-    public bool GetValue(string key)
+    public T GetValue<T>(string key)
     {
         if (state.ContainsKey(key))
         {
-            return state[key];
+            return (T)state[key];
         }
         else
         {
             Debug.Log("This world state property does not exist.");
-            return false;
+            return default;
         }
     }
 }

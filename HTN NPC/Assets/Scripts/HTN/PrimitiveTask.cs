@@ -17,7 +17,7 @@ public class PrimitiveTask : Task
         effects = new List<Effect>();
     }
 
-    public void AddEffect(string name, bool value)
+    public void AddEffect(string name, object value)
     {
         Effect effect = new Effect(name, value);
         if (!effects.Contains(effect))

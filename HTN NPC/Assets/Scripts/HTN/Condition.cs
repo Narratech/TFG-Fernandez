@@ -15,6 +15,6 @@ public class Condition
 
     public bool IsValid(WorldState state)
     {
-        return state.GetValue(id) == value;
+        return state.GetValue<bool>(id) == value;
     }
 }

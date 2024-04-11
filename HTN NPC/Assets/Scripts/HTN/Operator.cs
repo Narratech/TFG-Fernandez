@@ -11,6 +11,12 @@ public enum Status
 public class Operator
 {
     protected Status status;
+    protected WorldState worldState;
+
+    public Operator(WorldState worldState)
+    {
+        this.worldState = worldState;
+    }
 
     public virtual void Run() { }
     public virtual void Stop() { }

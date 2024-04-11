@@ -10,6 +10,8 @@ public class FieldOfView : MonoBehaviour
     public float radius;
     public float angle;
 
+    private Transform targetDetected;
+
     public bool FieldOfViewCheck()
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, radius, targetMask);
@@ -22,7 +24,16 @@ public class FieldOfView : MonoBehaviour
             if (Vector3.Angle(transform.forward, directionToTarget) < angle / 2)
             {
                 float distanceToTarget = Vector3.Distance(transform.position, target.position);
-                return !Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask);
+                if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
+                {
+                    targetDetected = target;
+                    return true;
+                }
+                else
+                {
+                    targetDetected = null;
+                    return false;
+                }
             }
             else
             {
@@ -33,5 +44,10 @@ public class FieldOfView : MonoBehaviour
         {
             return false;
         }
+    }
+
+    public Transform GetTarget()
+    {
+        return targetDetected;
     }
 }

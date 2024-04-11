@@ -5,9 +5,9 @@ using UnityEngine;
 public class Effect
 {
     private string id;
-    private bool value;
+    private object value;
 
-    public Effect(string id, bool value)
+    public Effect(string id, object value)
     {
         this.id = id;
         this.value = value;
