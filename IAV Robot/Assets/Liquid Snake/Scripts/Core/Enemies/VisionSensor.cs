@@ -25,11 +25,18 @@ namespace LiquidSnake.Enemies
         private float sensorDepth = 5f;
 
         [SerializeField]
+        [Tooltip("Radius of the detection area.")]
+        private float radius = 5f;
+
+        [SerializeField]
         [Tooltip("Vertical offset of the detection area.")]
         private float verticalOffset = 0f;
 
         [SerializeField]
-        private string[] detectableTags;
+        private LayerMask targetMask;
+
+        [SerializeField]
+        private LayerMask obstructionMask;
 
         [SerializeField]
         private Material targetFoundMaterial;
@@ -128,36 +135,26 @@ namespace LiquidSnake.Enemies
             // (desde aquí realizaremos el raycast para buscar objetos).
             Vector3 sightOrigin = transform.position + Vector3.up * verticalOffset;
 
-            foreach (string tag in detectableTags)
+            Collider[] colliders = Physics.OverlapSphere(transform.position, radius, targetMask);
+            foreach (Collider obj in colliders)
             {
-                // TODO: Ahora mismo esta comprobación es barata porque hay un único elemento con tag Player
-                // pero si cambia esta asunción puede llegar a ser una operación muy cara...
-                var objects = GameObject.FindGameObjectsWithTag(tag);
-                foreach (var obj in objects)
+                Vector3 targetPos = obj.bounds.center;
+                Vector3 dir = targetPos - sightOrigin;
+                Vector3 planarDir = new Vector3(dir.x, 0f, dir.z);
+
+                // Check de distancia: no nos interesa nada que sobrepase la distancia de detección
+                if (planarDir.sqrMagnitude > sensorDepth * sensorDepth) continue;
+
+                if (Mathf.Abs(Vector3.Angle(transform.forward, planarDir)) < detectionAngles / 2)
                 {
-                    Vector3 targetPos = obj.GetComponent<Collider>().bounds.center;
-                    Vector3 dir = targetPos - sightOrigin;
-                    Vector3 planarDir = new Vector3(dir.x, 0f, dir.z);
-
-                    // Check de distancia: no nos interesa nada que sobrepase la distancia de detección
-                    if (planarDir.sqrMagnitude > sensorDepth * sensorDepth) continue;
-
-                    if (Mathf.Abs(Vector3.Angle(transform.forward, planarDir)) < detectionAngles / 2)
+                    if (!Physics.Raycast(sightOrigin, dir, sensorDepth, obstructionMask))
                     {
-                        RaycastHit hit;
-                        // TODO: soporte para LayerMask
-                        if (Physics.Raycast(sightOrigin, dir, out hit))
+                        // No hay nada que obstruya la visión desde nuestro punto hasta el objeto,
+                        // y además la distancia al objeto en cuestión es menor que la mínima registrada.
+                        float d = dir.sqrMagnitude;
+                        if (d < minDistance)
                         {
-                            // No hay nada que obstruya la visión desde nuestro punto hasta el objeto,
-                            // y además la distancia al objeto en cuestión es menor que la mínima registrada.
-                            if (hit.collider.gameObject == obj)
-                            {
-                                float d = dir.sqrMagnitude;
-                                if (d < minDistance)
-                                {
-                                    minDistance = d; closest = obj;
-                                }
-                            }
+                            minDistance = d; closest = obj.gameObject;
                         }
                     }
                 }

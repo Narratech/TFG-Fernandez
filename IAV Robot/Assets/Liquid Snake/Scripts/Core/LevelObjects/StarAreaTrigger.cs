@@ -11,7 +11,7 @@ namespace LiquidSnake.LevelObjects
 
         public void Reset()
         {
-            gameObject.SetActive(true);
+            enabled = true;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -19,7 +19,7 @@ namespace LiquidSnake.LevelObjects
             if (other.gameObject.CompareTag("Player"))
             {
                 onAreaEntered?.Invoke();
-                gameObject.SetActive(false);
+                enabled = false;
             }
         }
     } // StarAreaTrigger

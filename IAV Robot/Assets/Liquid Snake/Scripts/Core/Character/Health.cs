@@ -81,6 +81,22 @@ namespace LiquidSnake.Character
         } // Damage
 
         /// <summary>
+        /// Aplica una cura dada sobre la salud del personaje.
+        /// </summary>
+        /// <param name="heal">Valor numérico de la cura a aplicar sobre el personaje</param>
+        public void Heal(float heal)
+        {
+            // guardamos la salud anterior para notificar de ella en el cambio.
+            float prevHealth = currentHealth;
+
+            // aplicamos un aumento sobre los puntos de salud del personaje
+            currentHealth = Mathf.Min(currentHealth + heal, maxHealth);
+
+            // notificamos del cambio en currentHealth
+            OnChange?.Invoke(prevHealth, currentHealth);
+        } // Heal
+
+        /// <summary>
         /// Método de conveniencia para restaurar los puntos de salud actuales del
         /// personaje a sus puntos de salud máximos. Esto tiene sentido especialmente 
         /// en el contexto de reinicios de nivel, o cuando se obtiene un objeto que cura

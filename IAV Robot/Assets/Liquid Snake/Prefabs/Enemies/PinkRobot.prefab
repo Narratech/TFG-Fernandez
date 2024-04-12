@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9072293048521081691}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Gun_joint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6867719052946175814}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Aim_joint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 2981403651111107712}
   - component: {fileID: 1376358655820371291}
   - component: {fileID: 4795387922464351097}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: HealthContent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -149,7 +149,7 @@ GameObject:
   m_Component:
   - component: {fileID: 969940798531199979}
   - component: {fileID: 8782723063616161763}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Laser
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -293,7 +293,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 619772056671558266}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Light_joint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -329,7 +329,7 @@ GameObject:
   - component: {fileID: 8127071191590286611}
   - component: {fileID: 4886202077505048607}
   - component: {fileID: 6026171899996667877}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: HealthCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -460,7 +460,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7242725323641721967}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Ammo_joint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -492,7 +492,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5512308571166761558}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Eye_joint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -525,7 +525,7 @@ GameObject:
   m_Component:
   - component: {fileID: 16357137115249105}
   - component: {fileID: 6288458509745296230}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Aim1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -629,7 +629,7 @@ Transform:
   m_GameObject: {fileID: 4436383961488312798}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.346, z: 0.798}
+  m_LocalPosition: {x: 0, y: 2.29, z: 0.798}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -655,12 +655,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0f094954b9ea03458ad36dbb3b0c64e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionAngles: 100
-  sensorHeight: 2
-  sensorDepth: 6
+  detectionAngles: 90
+  sensorHeight: 4
+  sensorDepth: 8
+  radius: 5
   verticalOffset: 0
-  detectableTags: []
-  targetFoundMaterial: {fileID: 0}
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 64
+  obstructionMask:
+    serializedVersion: 2
+    m_Bits: 128
+  targetFoundMaterial: {fileID: 2100000, guid: e3c8fff1b289c88459ed727571f27384, type: 2}
 --- !u!23 &3375939230346916614
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -712,7 +718,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4827256248603501227}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Ammo_joint2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -745,7 +751,7 @@ GameObject:
   - component: {fileID: 8514083806066421926}
   - component: {fileID: 6875456356770645233}
   - component: {fileID: 7572117544940560064}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: HealthDarkContent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -819,7 +825,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3081731636621458217}
   - component: {fileID: 8711787434254505072}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Aim2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -835,7 +841,7 @@ Transform:
   m_GameObject: {fileID: 5110774376827718433}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -42.578476, z: -76.155014}
+  m_LocalPosition: {x: 0.2634457, y: -42.578476, z: -99.26674}
   m_LocalScale: {x: 0.009999999, y: 0.009999999, z: 0.009999999}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -905,7 +911,7 @@ GameObject:
   m_Component:
   - component: {fileID: 913779799143972115}
   - component: {fileID: 511854958586741484}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -995,7 +1001,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4641101495120885461}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Gun_joint 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1027,7 +1033,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7006578912510814742}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Body_joint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1064,7 +1070,7 @@ GameObject:
   - component: {fileID: 1096258841092061493}
   - component: {fileID: 5824537994289568579}
   - component: {fileID: 518403446207067895}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1139,7 +1145,7 @@ GameObject:
   - component: {fileID: 7513836332962295269}
   - component: {fileID: 3281030669051527071}
   - component: {fileID: 9147838003977551914}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Heart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1259,11 +1265,11 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.35
-  m_Speed: 8
+  m_Speed: 6
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 0.5
   m_AutoTraverseOffMeshLink: 0
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -1381,11 +1387,9 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 4436383961488312798}
     - {fileID: 0}
-    - {fileID: 0}
     objectParamsNames:
     - initialWaypoint
     - visionSensorObject
-    - target
     - currentWaypoint
     objectParamsLostDefaultValue: 
     layerMaskParams: []
@@ -1477,7 +1481,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1934948034291569507}
   - component: {fileID: 5996717314457207471}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1562,7 +1566,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2691488522297702239}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: LaserBeam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1594,7 +1598,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8399129111054317277}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Aim_joint2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
