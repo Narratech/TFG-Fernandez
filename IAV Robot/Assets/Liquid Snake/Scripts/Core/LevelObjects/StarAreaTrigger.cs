@@ -7,19 +7,24 @@ namespace LiquidSnake.LevelObjects
     public class StarAreaTrigger : MonoBehaviour, IResetteable
     {
         [SerializeField]
+        private bool triggerAlways = false;
+
+        [SerializeField]
         private UnityEvent onAreaEntered;
+
+        private bool _triggered = false;
 
         public void Reset()
         {
-            enabled = true;
+            _triggered = false;
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.CompareTag("Player"))
+            if (other.gameObject.CompareTag("Player") && !_triggered)
             {
                 onAreaEntered?.Invoke();
-                enabled = false;
+                if (!triggerAlways) _triggered = true;
             }
         }
     } // StarAreaTrigger

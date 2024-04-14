@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1360539239201499588}
   - component: {fileID: 3912818328646088477}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: OnlyWallMetalBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}

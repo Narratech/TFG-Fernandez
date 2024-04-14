@@ -154,8 +154,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ae3a817564d19442b128c358a2c8a4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colorType: 0
+  button: {fileID: 0}
   toggleTime: 1
   originallyEnabled: 1
+  materials:
+  - {fileID: 2100000, guid: f557a0a59fc40df4fae274e5c219b457, type: 2}
+  - {fileID: 2100000, guid: a936dbadc652ac846b2dd210e1fe75a6, type: 2}
+  - {fileID: 2100000, guid: 4b4a21f0d7d813e4ab17a76c4322d7ed, type: 2}
+  - {fileID: 2100000, guid: fb2da6f6a2896b44c8bfa6ebd1b14b59, type: 2}
 --- !u!4 &4255025603337190432 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e10e3cafd8dac8d4fa2ec3dbe4f197c4,

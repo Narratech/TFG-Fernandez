@@ -717,6 +717,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Aircon
       objectReference: {fileID: 0}
+    - target: {fileID: 8670858954971203187, guid: a62b3bbe7619dcc47be0f5548890fa36,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

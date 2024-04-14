@@ -1,11 +1,20 @@
 using LiquidSnake.Utils;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace LiquidSnake.LevelObjects
 {
+    public enum ColorType { Red, Green, Blue, White }
+
     public class ToggleBarrier : MonoBehaviour, IResetteable
     {
+        [SerializeField]
+        private ColorType colorType;
+
+        [SerializeField]
+        private Button button;
+
         [SerializeField]
         [Tooltip("Tiempo en segundos que tarda el láser en activarse o desactivarse.")]
         private float toggleTime = 2f;
@@ -14,6 +23,8 @@ namespace LiquidSnake.LevelObjects
         [Tooltip("Determina si el láser está activado nada más empezar el nivel.")]
         private bool originallyEnabled;
 
+        [SerializeField]
+        private List<Material> materials;
 
         /// <summary>
         /// Corrutina destinada a habilitar o deshabilitar el láser en el tiempo establecido.
@@ -34,6 +45,10 @@ namespace LiquidSnake.LevelObjects
         {
             _laserRenderer = GetComponent<MeshRenderer>();
             _laserCollider = GetComponent<Collider>();
+
+            _laserRenderer.material = materials[(int)colorType];
+
+            button.SetMaterial(materials[(int)colorType]);
         }
 
         public void ToggleLaser()

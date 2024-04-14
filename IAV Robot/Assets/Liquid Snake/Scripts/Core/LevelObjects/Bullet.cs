@@ -24,13 +24,13 @@ public class Bullet : MonoBehaviour
         Destroy(gameObject, 2f);
     } // Start
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (debugHits) Debug.LogFormat("Bullet hit {0}", collision.gameObject.name);
+        if (debugHits) Debug.LogFormat("Bullet hit {0}", other.gameObject.name);
         if (_bulletOwner == null)
         {
             Debug.LogWarningFormat("This bullet doesn't have an owner assigned {0}.", gameObject.name);
-            if (collision.collider.TryGetComponent<Health>(out var health))
+            if (other.TryGetComponent<Health>(out var health))
             {
                 health.Damage(damage);
             }
@@ -38,8 +38,8 @@ public class Bullet : MonoBehaviour
         else
         {
 
-            if (collision.collider.TryGetComponent<Health>(out var health) &&
-                !collision.gameObject.GetInstanceID().Equals(_bulletOwner.GetInstanceID()))
+            if (other.TryGetComponent<Health>(out var health) &&
+                !other.gameObject.GetInstanceID().Equals(_bulletOwner.GetInstanceID()))
             {
                 health.Damage(damage);
             }
