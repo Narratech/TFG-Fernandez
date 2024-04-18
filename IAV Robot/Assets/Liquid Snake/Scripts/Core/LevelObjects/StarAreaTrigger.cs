@@ -14,6 +14,11 @@ namespace LiquidSnake.LevelObjects
 
         private bool _triggered = false;
 
+        public bool Triggered()
+        {
+            return _triggered;
+        }
+
         public void Reset()
         {
             _triggered = false;

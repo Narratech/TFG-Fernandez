@@ -32,7 +32,7 @@ public class CompoundTask : Task
         }
         else
         {
-            Debug.Log("This subtask already exist.");
+            Debug.Log(task + ": This subtask already exist.");
         }
     }
 

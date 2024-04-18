@@ -14,5 +14,11 @@ namespace LiquidSnake.LevelObjects
         {
             meshRenderer.material = material;
         }
+
+        public bool Triggered()
+        {
+            StarAreaTrigger trigger = GetComponent<StarAreaTrigger>();
+            return trigger != null ? trigger.Triggered() : false;
+        }
     }
 } // namespace LiquidSnake.LevelObjects

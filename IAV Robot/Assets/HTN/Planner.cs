@@ -18,8 +18,22 @@ public class Planner
         this.rootTask = rootTask;
         this.worldState = worldState;
 
+        tempState = new WorldState();
         tasksToProcess = new Queue<Task>();
         finalPlan = new LinkedList<Task>();
+    }
+
+    private void CopyState(WorldState worldState, WorldState tempState)
+    {
+        Dictionary<string, object> original = worldState.GetDictionary();
+        Dictionary<string, object> copy = new Dictionary<string, object>();
+
+        foreach (var item in original)
+        {
+            copy.Add(item.Key, item.Value);
+        }
+
+        this.tempState.SetDictionary(copy);
     }
 
     private void RestoreToLastCompoundTask(Task parent)
@@ -36,7 +50,7 @@ public class Planner
     {
         finalPlan.Clear();
 
-        tempState = worldState;
+        CopyState(worldState, tempState);
         tasksToProcess.Enqueue(rootTask);
 
         while (tasksToProcess.Count > 0)

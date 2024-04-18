@@ -1348,7 +1348,7 @@ MonoBehaviour:
   TopClamp: 70
   BottomClamp: -30
   CameraAngleOverride: 0
-  LockCameraPosition: 0
+  LockCameraPosition: 1
 --- !u!114 &4990764682642888921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1386,8 +1386,8 @@ MonoBehaviour:
   shoot: 0
   interact: 0
   analogMovement: 0
-  cursorLocked: 1
-  cursorInputForLook: 1
+  cursorLocked: 0
+  cursorInputForLook: 0
 --- !u!114 &2383631508651570851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1395,7 +1395,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3862277631971027947}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
@@ -1511,7 +1511,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bd375328b35a8e4ebd75c44b6683209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
+  OnChange:
+    m_PersistentCalls:
+      m_Calls: []
+  currentHealth: 1000
+  maxHealth: 1000
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &3244119378589619064
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -27,7 +27,7 @@ public class Task
         }
         else
         {
-            Debug.Log("This task condition already exist.");
+            Debug.Log(name + " :This task condition already exist.");
         }
     }
 
