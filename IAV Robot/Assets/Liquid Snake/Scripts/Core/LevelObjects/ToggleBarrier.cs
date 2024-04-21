@@ -16,7 +16,7 @@ namespace LiquidSnake.LevelObjects
         private Button button;
 
         [SerializeField]
-        private List<Exit> exits;
+        private List<Access> accesses;
 
         [SerializeField]
         [Tooltip("Tiempo en segundos que tarda el láser en activarse o desactivarse.")]
@@ -85,9 +85,9 @@ namespace LiquidSnake.LevelObjects
             _laserRenderer.enabled = _shouldBeEnabled;
             _laserCollider.gameObject.SetActive(_shouldBeEnabled);
 
-            foreach (Exit exit in exits)
+            foreach (Access access in accesses)
             {
-                exit.Door = _shouldBeEnabled;
+                access.Door = _shouldBeEnabled;
             }
         } // ToggleLaserCoroutine
 
@@ -102,9 +102,9 @@ namespace LiquidSnake.LevelObjects
             Color clr = _laserRenderer.material.color;
             _laserRenderer.material.SetColor("_Color", new Color(clr.r, clr.g, clr.b, originallyEnabled ? 1f : 0f));
 
-            foreach (Exit exit in exits)
+            foreach (Access access in accesses)
             {
-                exit.Door = originallyEnabled;
+                access.Door = originallyEnabled;
             }
         } // Reset
 

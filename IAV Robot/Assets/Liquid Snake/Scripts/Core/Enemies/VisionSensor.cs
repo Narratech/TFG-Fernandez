@@ -148,7 +148,12 @@ namespace LiquidSnake.Enemies
                 if (Mathf.Abs(Vector3.Angle(transform.forward, planarDir)) < detectionAngles / 2)
                 {
                     float distance = Vector3.Distance(targetPos, sightOrigin);
-                    if (!Physics.Raycast(sightOrigin, dir, distance, obstructionMask))
+                    bool hitObstruction = Physics.Raycast(sightOrigin, dir, distance, obstructionMask);
+
+                    PlayerController player = obj.gameObject.GetComponent<PlayerController>();
+                    if (player != null) player.SetDetected(!hitObstruction);
+
+                    if (!hitObstruction)
                     {
                         // No hay nada que obstruya la visión desde nuestro punto hasta el objeto,
                         // y además la distancia al objeto en cuestión es menor que la mínima registrada.

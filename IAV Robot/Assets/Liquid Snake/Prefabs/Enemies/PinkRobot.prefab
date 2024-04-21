@@ -665,7 +665,7 @@ MonoBehaviour:
     m_Bits: 64
   obstructionMask:
     serializedVersion: 2
-    m_Bits: 136
+    m_Bits: 648
   targetFoundMaterial: {fileID: 2100000, guid: e3c8fff1b289c88459ed727571f27384, type: 2}
 --- !u!23 &3375939230346916614
 MeshRenderer:
@@ -1226,7 +1226,7 @@ GameObject:
   - component: {fileID: 3451022713393870881}
   - component: {fileID: 8790698260661818641}
   - component: {fileID: 7745818952141058002}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PinkRobot
   m_TagString: Enemy
   m_Icon: {fileID: 0}

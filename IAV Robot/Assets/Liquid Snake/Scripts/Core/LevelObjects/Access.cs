@@ -4,11 +4,8 @@ using UnityEngine;
 
 namespace LiquidSnake.LevelObjects
 {
-    public class Exit : MonoBehaviour
+    public class Access : MonoBehaviour
     {
-        [SerializeField]
-        private PlayerController playerController;
-
         [SerializeField]
         private bool used = false;
 
@@ -34,14 +31,6 @@ namespace LiquidSnake.LevelObjects
         {
             get { return end; }
             set { end = value; }
-        }
-
-        private void Update()
-        {
-            if (Vector3.Distance(transform.position, playerController.transform.position) <= 1)
-            {
-                Used = true;
-            }
         }
     }
 } // namespace LiquidSnake.LevelObjects

@@ -10,6 +10,9 @@ namespace LiquidSnake.LevelObjects
         [SerializeField]
         private MeshRenderer meshRenderer;
 
+        [SerializeField]
+        private Transform position;
+
         public void SetMaterial(Material material)
         {
             meshRenderer.material = material;
@@ -19,6 +22,11 @@ namespace LiquidSnake.LevelObjects
         {
             StarAreaTrigger trigger = GetComponent<StarAreaTrigger>();
             return trigger != null ? trigger.Triggered() : false;
+        }
+
+        public Transform GetPosition()
+        {
+            return position;
         }
     }
 } // namespace LiquidSnake.LevelObjects

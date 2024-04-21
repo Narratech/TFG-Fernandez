@@ -52,7 +52,7 @@ public class MoveTo : Operator
             navMeshAgent.isStopped = true;
             status = Status.Failure;
 
-            Debug.Log("MoveTo: Unable to make path.");
+            Debug.Log("MoveTo: Unable to make path to " + point.gameObject + " with parent " + point.parent.gameObject);
         }
     }
 
@@ -83,6 +83,8 @@ public class MoveTo : Operator
         {
             navMeshAgent.isStopped = true;
             status = Status.Failure;
+
+            Debug.Log("MoveTo: Unable to make path to " + wayPoints[currentPoint].gameObject + " with parent " + wayPoints[currentPoint].parent.gameObject);
         }
     }
 

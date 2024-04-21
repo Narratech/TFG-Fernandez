@@ -303,7 +303,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorType: 0
   button: {fileID: 0}
-  exits:
+  accesses:
   - {fileID: 988704246190513861}
   - {fileID: 8498335383391857754}
   toggleTime: 1
