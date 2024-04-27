@@ -43,6 +43,11 @@ namespace LiquidSnake.LevelObjects
         private void Start()
         {
             Reset();
+
+            foreach (Access access in accesses)
+            {
+                access.Door = this;
+            }
         }
 
         private void Awake()
@@ -87,9 +92,14 @@ namespace LiquidSnake.LevelObjects
 
             foreach (Access access in accesses)
             {
-                access.Door = _shouldBeEnabled;
+                access.IsDoor = _shouldBeEnabled;
             }
         } // ToggleLaserCoroutine
+
+        public Button GetButton()
+        {
+            return button;
+        }
 
         public void Reset()
         {
@@ -104,7 +114,7 @@ namespace LiquidSnake.LevelObjects
 
             foreach (Access access in accesses)
             {
-                access.Door = originallyEnabled;
+                access.IsDoor = originallyEnabled;
             }
         } // Reset
 

@@ -1,15 +1,13 @@
 using LiquidSnake.LevelObjects;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class RoomController : MonoBehaviour
 {
     [SerializeField]
     private Transform health;
-
-    [SerializeField]
-    private Button button;
 
     [SerializeField]
     private Transform hideSpot;
@@ -20,76 +18,21 @@ public class RoomController : MonoBehaviour
     private PlayerController playerController;
     private WorldState worldState;
 
-    public void UpdateWorldState()
+    private bool discovered;
+
+    private void Awake()
     {
-        if (health != null)
+        BoxCollider box = GetComponent<BoxCollider>();
+        Collider[] colliders = Physics.OverlapBox(box.bounds.center, box.bounds.size / 2, quaternion.identity, Physics.AllLayers, QueryTriggerInteraction.Collide);
+
+        foreach (Collider collider in colliders)
         {
-            List<Transform> list = worldState.GetValue<List<Transform>>("TotalHealths");
-            if (list == null) list = new List<Transform>();
-            if (!list.Contains(health)) list.Add(health);
-
-            worldState.ChangeValue("TotalHealths", list);
-            worldState.ChangeValue("CanHeal", list.Count > 0);
-        }
-
-        if (button != null)
-        {
-            List<Transform> list = worldState.GetValue<List<Transform>>("TotalButtons");
-            if (list == null) list = new List<Transform>();
-            if (!button.Triggered() && !list.Contains(button.GetPosition())) list.Add(button.GetPosition());
-
-            worldState.ChangeValue("TotalButtons", list);
-
-            worldState.ChangeValue("CurrentButton", button.GetPosition());
-            worldState.ChangeValue("CanButton", !button.Triggered());
-        }
-        else
-        {
-            worldState.ChangeValue("CanButton", false);
-        }
-
-        if (hideSpot != null)
-        {
-            worldState.ChangeValue("HideSpot", hideSpot);
-            worldState.ChangeValue("CanHide", true);
-        }
-        else
-        {
-            worldState.ChangeValue("CanHide", false);
-        }
-
-        if (exits != null)
-        {
-            worldState.ChangeValue("RoomExits", exits);
-
-            List<Access> list = worldState.GetValue<List<Access>>("TotalExits");
-            if (list == null) list = new List<Access>();
-            foreach (Access exit in exits)
+            Access access = collider.GetComponent<Access>();
+            if (access != null)
             {
-                if (!list.Contains(exit) && !exit.Used)
-                {
-                    list.Add(exit);
-                }
+                access.Room = this;
             }
-
-            worldState.ChangeValue("TotalExits", list);
         }
-
-        playerController.SetWorldState(worldState);
-    }
-
-    public void RemoveButton(Transform button)
-    {
-        List<Transform> list = worldState.GetValue<List<Transform>>("TotalButtons");
-        if (list.Contains(button)) list.Remove(button);
-        worldState.ChangeValue("TotalButtons", list);
-    }
-
-    public void RemoveHealth(Transform health)
-    {
-        List<Transform> list = worldState.GetValue<List<Transform>>("TotalHealths");
-        if (list.Contains(health)) list.Remove(health);
-        worldState.ChangeValue("TotalHealths", list);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -104,5 +47,60 @@ public class RoomController : MonoBehaviour
 
             UpdateWorldState();
         }
+    }
+
+    private void UpdateWorldState()
+    {
+        if (health != null)
+        {
+            List<Transform> list = worldState.GetValue<List<Transform>>("TotalHealths");
+            if (list == null) list = new List<Transform>();
+            if (!list.Contains(health)) list.Add(health);
+
+            worldState.ChangeValue("TotalHealths", list);
+            worldState.ChangeValue("CanHeal", list.Count > 0);
+        }
+
+        if (hideSpot != null)
+        {
+            List<Transform> list = worldState.GetValue<List<Transform>>("TotalHideSpots");
+            if (list == null) list = new List<Transform>();
+            if (!list.Contains(hideSpot)) list.Add(hideSpot);
+
+            worldState.ChangeValue("TotalHideSpots", list);
+            worldState.ChangeValue("CanHide", list.Count > 0);
+        }
+
+        if (exits != null)
+        {
+            worldState.ChangeValue("RoomExits", exits);
+
+            List<Access> list = worldState.GetValue<List<Access>>("TotalExits");
+            if (list == null) list = new List<Access>();
+            foreach (Access exit in exits)
+            {
+                if (!list.Contains(exit) && !exit.Room.Discovered)
+                {
+                    list.Add(exit);
+                }
+            }
+
+            worldState.ChangeValue("TotalExits", list);
+        }
+
+        playerController.SetWorldState(worldState);
+    }
+
+    public void RemoveHealth(Transform health)
+    {
+        List<Transform> list = worldState.GetValue<List<Transform>>("TotalHealths");
+        if (list.Contains(health)) list.Remove(health);
+        worldState.ChangeValue("TotalHealths", list);
+    }
+
+    public bool Discovered
+    {
+        get { return discovered; }
+        set { discovered = value; }
     }
 }

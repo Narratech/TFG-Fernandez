@@ -13,211 +13,263 @@ public class PlayerController : MonoBehaviour
     private Planner planner;
     private CompoundTask root;
 
+    private bool planning;
+
     private void Start()
     {
+        planning = true;
+
         worldState = new WorldState();
 
         // Variables
         worldState.AddProperty("LowHealth", false);
-        worldState.AddProperty("Detected", false);
-        worldState.AddProperty("FindAccess", true);
-
         worldState.AddProperty("CanHeal", false);
-        worldState.AddProperty("CanButton", false);
+
+        worldState.AddProperty("TotalHealths", null);
+        worldState.AddProperty("CurrentHealth", null);
+
+        worldState.AddProperty("Detected", false);
         worldState.AddProperty("CanHide", false);
 
-        worldState.AddProperty("HideSpot", null);
-        worldState.AddProperty("TotalHealths", null);
-        worldState.AddProperty("TotalButtons", null);
+        worldState.AddProperty("TotalHideSpots", null);
+        worldState.AddProperty("CurrentHideSpot", null);
+
+        worldState.AddProperty("HasDestination", false);
+        worldState.AddProperty("IsDoor", false);
+        worldState.AddProperty("IsEnd", false);
+
+        worldState.AddProperty("CurrentButton", null);
+
         worldState.AddProperty("TotalExits", null);
         worldState.AddProperty("RoomExits", null);
-
-        worldState.AddProperty("CurrentHealth", null);
-        worldState.AddProperty("CurrentButton", null);
         worldState.AddProperty("CurrentExit", null);
-        worldState.AddProperty("PreviousExit", null);
 
-        root = FinalTree();
+        root = Tree();
 
         planner = new Planner(root, worldState);
     }
 
-    private CompoundTask MoveToExitTree()
+    private PrimitiveTask SelectDestination()
     {
-        CompoundTask exitRoot = new CompoundTask(CompoundType.Sequence);
-
-        SelectAccess selectAccess = new SelectAccess("RoomExits", "TotalExits", "CurrentExit", worldState, "FindAccess");
+        SelectAccess selectAccess = new SelectAccess("RoomExits", "TotalExits", "CurrentExit", "IsDoor", "IsEnd", worldState);
         PrimitiveTask selectTask = new PrimitiveTask();
         selectTask.SetOperator(selectAccess);
+        selectTask.AddEffect("HasDestination", true);
 
+        return selectTask;
+    }
+
+    private PrimitiveTask MoveToDestination()
+    {
         MoveTo moveToExit = new MoveTo(navMeshAgent, "CurrentExit", worldState);
         PrimitiveTask moveTask = new PrimitiveTask();
         moveTask.SetOperator(moveToExit);
+        moveTask.AddEffect("HasDestination", false);
 
-        exitRoot.AddTask(selectTask);
-        exitRoot.AddTask(moveTask);
-
-        return exitRoot;
+        return moveTask;
     }
 
-    private CompoundTask MoveToRemainingButtonTree()
+    private PrimitiveTask SelectButton()
     {
-        CompoundTask buttonRoot = new CompoundTask(CompoundType.Sequence);
-
-        SelectObject selectButton = new SelectObject(navMeshAgent, "TotalButtons", "CurrentButton", worldState);
+        SelectButton selectButton = new SelectButton("CurrentExit", "CurrentButton", worldState);
         PrimitiveTask selectTask = new PrimitiveTask();
         selectTask.SetOperator(selectButton);
 
-        MoveTo moveToButton = new MoveTo(navMeshAgent, "CurrentButton", worldState);
-        PrimitiveTask moveTask = new PrimitiveTask();
-        moveTask.AddEffect("FindAccess", true);
-        moveTask.SetOperator(moveToButton);
+        return selectTask;
+    }
 
+    private PrimitiveTask MoveToButton()
+    {
+        MoveTo moveToExit = new MoveTo(navMeshAgent, "CurrentButton", worldState);
+        PrimitiveTask moveTask = new PrimitiveTask();
+        moveTask.SetOperator(moveToExit);
+        moveTask.AddEffect("IsDoor", false);
+
+        return moveTask;
+    }
+
+    private PrimitiveTask Wait()
+    {
         Wait wait = new Wait(1);
         PrimitiveTask waitTask = new PrimitiveTask();
         waitTask.SetOperator(wait);
 
-        buttonRoot.AddTask(selectTask);
-        buttonRoot.AddTask(moveTask);
-        buttonRoot.AddTask(waitTask);
-
-        return buttonRoot;
+        return waitTask;
     }
 
-    private CompoundTask MoveToExitOrButtonTree()
+    private CompoundTask OpenDoor()
     {
-        CompoundTask movementRoot = new CompoundTask(CompoundType.Selector);
+        CompoundTask sequence = new CompoundTask(CompoundType.Sequence);
 
-        CompoundTask exitTask = MoveToExitTree();
-        exitTask.AddCondition("FindAccess", true);
+        PrimitiveTask selectTask = SelectButton();
 
-        CompoundTask buttonTask = MoveToRemainingButtonTree();
-        buttonTask.AddCondition("FindAccess", false);
+        PrimitiveTask moveTask = MoveToButton();
 
-        movementRoot.AddTask(exitTask);
-        movementRoot.AddTask(buttonTask);
+        PrimitiveTask waitTask = Wait();
 
-        return movementRoot;
+        sequence.AddTask(selectTask);
+        sequence.AddTask(moveTask);
+        sequence.AddTask(waitTask);
+
+        return sequence;
     }
 
-    private CompoundTask MoveToSelectedButtonTree()
+    private CompoundTask GoToDestination()
     {
-        CompoundTask buttonRoot = new CompoundTask(CompoundType.Sequence);
+        CompoundTask selector = new CompoundTask(CompoundType.Selector);
 
-        MoveTo moveToButton = new MoveTo(navMeshAgent, "CurrentButton", worldState);
-        PrimitiveTask moveTask = new PrimitiveTask();
-        moveTask.AddEffect("CanButton", false);
-        moveTask.SetOperator(moveToButton);
+        CompoundTask doorTask = OpenDoor();
+        doorTask.AddCondition("IsDoor", true);
 
-        Wait wait = new Wait(1);
-        PrimitiveTask waitTask = new PrimitiveTask();
-        waitTask.SetOperator(wait);
+        PrimitiveTask gateTask = MoveToDestination();
+        gateTask.AddCondition("IsDoor", false);
 
-        buttonRoot.AddTask(moveTask);
-        buttonRoot.AddTask(waitTask);
+        selector.AddTask(doorTask);
+        selector.AddTask(gateTask);
 
-        return buttonRoot;
+        return selector;
     }
 
-    CompoundTask MoveUndetectedTree()
+    private CompoundTask SearchNewRoom()
     {
-        CompoundTask undetectedRoot = new CompoundTask(CompoundType.Selector);
+        CompoundTask selector = new CompoundTask(CompoundType.Selector);
 
-        CompoundTask selectedButtonTask = MoveToSelectedButtonTree();
-        selectedButtonTask.AddCondition("CanButton", true);
+        CompoundTask enterTask = GoToDestination();
+        enterTask.AddCondition("HasDestination", true);
 
-        CompoundTask buttonOrExitTask = MoveToExitOrButtonTree();
-        buttonOrExitTask.AddCondition("CanButton", false);
+        PrimitiveTask selectTask = SelectDestination();
+        selectTask.AddCondition("HasDestination", false);
 
-        undetectedRoot.AddTask(selectedButtonTask);
-        undetectedRoot.AddTask(buttonOrExitTask);
+        selector.AddTask(enterTask);
+        selector.AddTask(selectTask);
 
-        return undetectedRoot;
+        return selector;
     }
 
-    private CompoundTask HidingTree()
+    private CompoundTask GoToEnd()
     {
-        CompoundTask hidingRoot = new CompoundTask(CompoundType.Selector);
+        CompoundTask selector = new CompoundTask(CompoundType.Selector);
 
-        MoveTo moveToHide = new MoveTo(navMeshAgent, "HideSpot", worldState);
-        PrimitiveTask hideTask = new PrimitiveTask();
-        hideTask.AddCondition("CanHide", true);
-        hideTask.AddEffect("Detected", false);
-        hideTask.SetOperator(moveToHide);
+        CompoundTask moveTask = GoToDestination();
+        moveTask.AddCondition("IsEnd", true);
+        moveTask.AddCondition("HasDestination", true);
 
-        CompoundTask treeTask = MoveToExitOrButtonTree();
-        treeTask.AddCondition("CanHide", false);
+        CompoundTask searchTask = SearchNewRoom();
+        searchTask.AddCondition("IsEnd", false);
 
-        hidingRoot.AddTask(hideTask);
-        hidingRoot.AddTask(treeTask);
+        selector.AddTask(moveTask);
+        selector.AddTask(searchTask);
 
-        return hidingRoot;
+        return selector;
     }
 
-    private CompoundTask MovementTree()
+    private PrimitiveTask SelectHealth()
     {
-        CompoundTask movementRoot = new CompoundTask(CompoundType.Selector);
-
-        CompoundTask hideTask = HidingTree();
-        hideTask.AddCondition("Detected", true);
-
-        CompoundTask buttonTask = MoveUndetectedTree();
-        buttonTask.AddCondition("Detected", false);
-
-        movementRoot.AddTask(hideTask);
-        movementRoot.AddTask(buttonTask);
-
-        return movementRoot;
-    }
-
-    private CompoundTask MoveToHealthTree()
-    {
-        CompoundTask healthRoot = new CompoundTask(CompoundType.Sequence);
-
-        SelectObject selectHealth = new SelectObject(navMeshAgent, "TotalHealths", "CurrentHealth", worldState);
+        SelectObject selectObject = new SelectObject(navMeshAgent, "TotalHealths", "CurrentHealth", worldState);
         PrimitiveTask selectTask = new PrimitiveTask();
-        selectTask.SetOperator(selectHealth);
+        selectTask.SetOperator(selectObject);
 
+        return selectTask;
+    }
+
+    private PrimitiveTask MoveToHealth()
+    {
         MoveTo moveToHealth = new MoveTo(navMeshAgent, "CurrentHealth", worldState);
         PrimitiveTask moveTask = new PrimitiveTask();
         moveTask.SetOperator(moveToHealth);
 
-        healthRoot.AddTask(selectTask);
-        healthRoot.AddTask(moveTask);
-
-        return healthRoot;
+        return moveTask;
     }
 
-    private CompoundTask FinalTree()
+    private CompoundTask GoToHealth()
     {
-        CompoundTask root = new CompoundTask(CompoundType.Selector);
+        CompoundTask sequence = new CompoundTask(CompoundType.Sequence);
 
-        CompoundTask healthTask = MoveToHealthTree();
-        healthTask.AddCondition("LowHealth", true);
-        healthTask.AddCondition("CanHeal", true);
+        PrimitiveTask selectTask = SelectHealth();
 
-        CompoundTask moveTask = MovementTree();
-        moveTask.AddCondition("LowHealth", false);
+        PrimitiveTask moveTask = MoveToHealth();
+        moveTask.AddCondition("CanHeal", true);
 
-        root.AddTask(healthTask);
-        root.AddTask(moveTask);
+        sequence.AddTask(selectTask);
+        sequence.AddTask(moveTask);
 
-        return root;
+        return sequence;
+    }
+
+    private PrimitiveTask SelectHideSpot()
+    {
+        SelectObject selectObject = new SelectObject(navMeshAgent, "TotalHideSpots", "CurrentHideSpot", worldState);
+        PrimitiveTask selectTask = new PrimitiveTask();
+        selectTask.SetOperator(selectObject);
+
+        return selectTask;
+    }
+
+    private PrimitiveTask MoveToHideSpot()
+    {
+        MoveTo moveToHealth = new MoveTo(navMeshAgent, "CurrentHideSpot", worldState);
+        PrimitiveTask moveTask = new PrimitiveTask();
+        moveTask.SetOperator(moveToHealth);
+        moveTask.AddCondition("CanHide", true);
+
+        return moveTask;
+    }
+
+    private CompoundTask GoToHideSpot()
+    {
+        CompoundTask sequence = new CompoundTask(CompoundType.Sequence);
+
+        PrimitiveTask selectTask = SelectHideSpot();
+
+        PrimitiveTask moveTask = MoveToHideSpot();
+
+        sequence.AddTask(selectTask);
+        sequence.AddTask(moveTask);
+
+        return sequence;
+    }
+
+    private CompoundTask Tree()
+    {
+        CompoundTask selector = new CompoundTask(CompoundType.Selector);
+
+        CompoundTask healTask = GoToHealth();
+        healTask.AddCondition("LowHealth", true);
+
+        CompoundTask hideTask = GoToHideSpot();
+        hideTask.AddCondition("Detected", true);
+
+        CompoundTask goToEndTask = GoToEnd();
+
+        selector.AddTask(healTask);
+        selector.AddTask(hideTask);
+        selector.AddTask(goToEndTask);
+
+        return selector;
     }
 
     private void Update()
     {
         Health health = GetComponent<Health>();
-        if (health != null && health.CurrentValue() <= health.MaxValue() / 2)
+        if (health != null)
         {
-            worldState.ChangeValue("LowHealth", true);
-        }
-        else
-        {
-            worldState.ChangeValue("LowHealth", false);
+            worldState.ChangeValue("LowHealth", health.CurrentValue() <= health.MaxValue() / 2);
         }
 
-        planner.RunPlan();
+        if (navMeshAgent.pathStatus != NavMeshPathStatus.PathComplete)
+        {
+            worldState.ChangeValue("HasDestination", false);
+        }
+
+        if (planning)
+        {
+            planner.RunPlan();
+        }
+    }
+
+    public void Stop()
+    {
+        planning = false;
     }
 
     public WorldState GetWorldState()

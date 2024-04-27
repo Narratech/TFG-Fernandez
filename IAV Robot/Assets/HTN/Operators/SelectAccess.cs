@@ -8,17 +8,19 @@ public class SelectAccess : Operator
     private string roomKey;
     private string totalKey;
     private string currentKey;
-    private string conditionKey;
+    private string doorKey;
+    private string endKey;
 
     private List<Access> roomAccesses;
     private List<Access> totalAccesses;
 
-    public SelectAccess(string roomKey, string totalKey, string currentKey, WorldState worldState, string conditionKey) : base(worldState)
+    public SelectAccess(string roomKey, string totalKey, string currentKey, string doorKey, string endKey, WorldState worldState) : base(worldState)
     {
         this.roomKey = roomKey;
         this.totalKey = totalKey;
         this.currentKey = currentKey;
-        this.conditionKey = conditionKey;
+        this.doorKey = doorKey;
+        this.endKey = endKey;
     }
 
     public override void Run()
@@ -28,23 +30,23 @@ public class SelectAccess : Operator
 
         if (roomAccesses == null || totalAccesses == null)
         {
-            worldState.ChangeValue(conditionKey, false);
             status = Status.Failure;
             return;
         }
 
-        Access accessEnd = null;
+        Access goal = null;
         List<Access> roomAvailable = new List<Access>();
         List<Access> allAvailable = new List<Access>();
 
         foreach (Access access in totalAccesses)
         {
-            if (!access.Door && !access.Used)
+            if (access.IsEnd)
             {
-                if (access.End)
-                {
-                    accessEnd = access;
-                }
+                goal = access;
+            }
+
+            if (!access.Room.Discovered)
+            {
 
                 if (roomAccesses.Contains(access))
                 {
@@ -55,22 +57,27 @@ public class SelectAccess : Operator
             }
         }
 
-        if (accessEnd != null)
+        if (goal != null)
         {
-            worldState.ChangeValue(currentKey, accessEnd.transform);
+            worldState.ChangeValue(currentKey, goal.transform);
+            worldState.ChangeValue(doorKey, goal.IsDoor);
+            worldState.ChangeValue(endKey, goal.IsEnd);
+
             status = Status.Success;
         }
         else if (roomAvailable.Count > 0 || allAvailable.Count > 0)
         {
             Access randomAccess = (roomAvailable.Count > 0) ? roomAvailable[Random.Range(0, roomAvailable.Count)] : allAvailable[Random.Range(0, allAvailable.Count)];
-            randomAccess.Used = true;
+            randomAccess.Room.Discovered = true;
 
             worldState.ChangeValue(currentKey, randomAccess.transform);
+            worldState.ChangeValue(doorKey, randomAccess.IsDoor);
+            worldState.ChangeValue(endKey, randomAccess.IsEnd);
+
             status = Status.Success;
         }
         else
         {
-            worldState.ChangeValue(conditionKey, false);
             status = Status.Failure;
         }
     }

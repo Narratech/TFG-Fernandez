@@ -7,30 +7,36 @@ namespace LiquidSnake.LevelObjects
     public class Access : MonoBehaviour
     {
         [SerializeField]
-        private bool used = false;
+        private bool isDoor = false;
 
         [SerializeField]
-        private bool door = false;
+        private bool isEnd = false;
 
-        [SerializeField]
-        private bool end = false;
+        private RoomController room;
+        private ToggleBarrier door;
 
-        public bool Used
+        public bool IsDoor
         {
-            get { return used; }
-            set { used = value; }
+            get { return isDoor; }
+            set { isDoor = value; }
         }
 
-        public bool Door
+        public bool IsEnd
+        {
+            get { return isEnd; }
+            set { isEnd = value; }
+        }
+
+        public RoomController Room
+        {
+            get { return room; }
+            set { room = value; }
+        }
+
+        public ToggleBarrier Door
         {
             get { return door; }
             set { door = value; }
-        }
-
-        public bool End
-        {
-            get { return end; }
-            set { end = value; }
         }
     }
 } // namespace LiquidSnake.LevelObjects
