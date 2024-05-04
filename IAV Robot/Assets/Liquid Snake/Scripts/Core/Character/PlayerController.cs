@@ -1,6 +1,4 @@
 using LiquidSnake.Character;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -35,6 +33,7 @@ public class PlayerController : MonoBehaviour
         worldState.AddProperty("CurrentHideSpot", null);
 
         worldState.AddProperty("HasDestination", false);
+        worldState.AddProperty("CanButton", false);
         worldState.AddProperty("IsDoor", false);
         worldState.AddProperty("IsEnd", false);
 
@@ -71,7 +70,7 @@ public class PlayerController : MonoBehaviour
 
     private PrimitiveTask SelectButton()
     {
-        SelectButton selectButton = new SelectButton("CurrentExit", "CurrentButton", worldState);
+        SelectButton selectButton = new SelectButton(navMeshAgent, "CurrentExit", "CurrentButton", "CanButton", worldState);
         PrimitiveTask selectTask = new PrimitiveTask();
         selectTask.SetOperator(selectButton);
 
@@ -97,19 +96,48 @@ public class PlayerController : MonoBehaviour
         return waitTask;
     }
 
+    private CompoundTask GoToButton()
+    {
+        CompoundTask sequence = new CompoundTask(CompoundType.Sequence);
+
+        PrimitiveTask moveTask = MoveToButton();
+
+        PrimitiveTask waitTask = Wait();
+
+        sequence.AddTask(moveTask);
+        sequence.AddTask(waitTask);
+
+        return sequence;
+    }
+
+    private CompoundTask CanButton()
+    {
+        CompoundTask selector = new CompoundTask(CompoundType.Selector);
+
+        CompoundTask moveTask = GoToButton();
+        moveTask.AddCondition("CanButton", true);
+        moveTask.AddCondition("LowHealth", false);
+        moveTask.AddCondition("Detected", false);
+
+        PrimitiveTask selectTask = SelectDestination();
+        selectTask.AddCondition("CanButton", false);
+
+        selector.AddTask(moveTask);
+        selector.AddTask(selectTask);
+
+        return selector;
+    }
+
     private CompoundTask OpenDoor()
     {
         CompoundTask sequence = new CompoundTask(CompoundType.Sequence);
 
         PrimitiveTask selectTask = SelectButton();
 
-        PrimitiveTask moveTask = MoveToButton();
-
-        PrimitiveTask waitTask = Wait();
+        CompoundTask buttonTask = CanButton();
 
         sequence.AddTask(selectTask);
-        sequence.AddTask(moveTask);
-        sequence.AddTask(waitTask);
+        sequence.AddTask(buttonTask);
 
         return sequence;
     }
@@ -123,6 +151,8 @@ public class PlayerController : MonoBehaviour
 
         PrimitiveTask gateTask = MoveToDestination();
         gateTask.AddCondition("IsDoor", false);
+        gateTask.AddCondition("LowHealth", false);
+        gateTask.AddCondition("Detected", false);
 
         selector.AddTask(doorTask);
         selector.AddTask(gateTask);
@@ -165,7 +195,7 @@ public class PlayerController : MonoBehaviour
 
     private PrimitiveTask SelectHealth()
     {
-        SelectObject selectObject = new SelectObject(navMeshAgent, "TotalHealths", "CurrentHealth", worldState);
+        ClosestObject selectObject = new ClosestObject(navMeshAgent, "TotalHealths", "CurrentHealth", worldState);
         PrimitiveTask selectTask = new PrimitiveTask();
         selectTask.SetOperator(selectObject);
 
@@ -198,7 +228,7 @@ public class PlayerController : MonoBehaviour
 
     private PrimitiveTask SelectHideSpot()
     {
-        SelectObject selectObject = new SelectObject(navMeshAgent, "TotalHideSpots", "CurrentHideSpot", worldState);
+        ClosestObject selectObject = new ClosestObject(navMeshAgent, "TotalHideSpots", "CurrentHideSpot", worldState);
         PrimitiveTask selectTask = new PrimitiveTask();
         selectTask.SetOperator(selectObject);
 
@@ -223,8 +253,11 @@ public class PlayerController : MonoBehaviour
 
         PrimitiveTask moveTask = MoveToHideSpot();
 
+        PrimitiveTask waitTask = Wait();
+
         sequence.AddTask(selectTask);
         sequence.AddTask(moveTask);
+        sequence.AddTask(waitTask);
 
         return sequence;
     }
@@ -256,10 +289,7 @@ public class PlayerController : MonoBehaviour
             worldState.ChangeValue("LowHealth", health.CurrentValue() <= health.MaxValue() / 2);
         }
 
-        if (navMeshAgent.pathStatus != NavMeshPathStatus.PathComplete)
-        {
-            worldState.ChangeValue("HasDestination", false);
-        }
+        worldState.ChangeValue("Detected", GameManager.Instance.TimesDetected > 0);
 
         if (planning)
         {
@@ -280,10 +310,5 @@ public class PlayerController : MonoBehaviour
     public void SetWorldState(WorldState worldState)
     {
         this.worldState = worldState;
-    }
-
-    public void SetDetected(bool detected)
-    {
-        worldState.ChangeValue("Detected", detected);
     }
 }

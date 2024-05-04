@@ -136,6 +136,8 @@ namespace LiquidSnake.Enemies
             Vector3 sightOrigin = transform.position + Vector3.up * verticalOffset;
 
             Collider[] colliders = Physics.OverlapSphere(transform.position, radius, targetMask);
+            if (colliders.Length <= 0) GameManager.Instance.TimesDetected--;
+
             foreach (Collider obj in colliders)
             {
                 Vector3 targetPos = obj.bounds.center;
@@ -150,11 +152,10 @@ namespace LiquidSnake.Enemies
                     float distance = Vector3.Distance(targetPos, sightOrigin);
                     bool hitObstruction = Physics.Raycast(sightOrigin, dir, distance, obstructionMask);
 
-                    PlayerController player = obj.gameObject.GetComponent<PlayerController>();
-                    if (player != null) player.SetDetected(!hitObstruction);
-
                     if (!hitObstruction)
                     {
+                        GameManager.Instance.TimesDetected++;
+
                         // No hay nada que obstruya la visión desde nuestro punto hasta el objeto,
                         // y además la distancia al objeto en cuestión es menor que la mínima registrada.
                         float d = dir.sqrMagnitude;

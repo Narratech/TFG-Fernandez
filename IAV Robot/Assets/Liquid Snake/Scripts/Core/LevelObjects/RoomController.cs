@@ -1,5 +1,4 @@
 using LiquidSnake.LevelObjects;
-using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
@@ -28,10 +27,7 @@ public class RoomController : MonoBehaviour
         foreach (Collider collider in colliders)
         {
             Access access = collider.GetComponent<Access>();
-            if (access != null)
-            {
-                access.Room = this;
-            }
+            if (access != null) access.Room = this;
         }
     }
 
@@ -54,7 +50,7 @@ public class RoomController : MonoBehaviour
         if (health != null)
         {
             List<Transform> list = worldState.GetValue<List<Transform>>("TotalHealths");
-            if (list == null) list = new List<Transform>();
+            list ??= new List<Transform>();
             if (!list.Contains(health)) list.Add(health);
 
             worldState.ChangeValue("TotalHealths", list);
@@ -64,7 +60,7 @@ public class RoomController : MonoBehaviour
         if (hideSpot != null)
         {
             List<Transform> list = worldState.GetValue<List<Transform>>("TotalHideSpots");
-            if (list == null) list = new List<Transform>();
+            list ??= new List<Transform>();
             if (!list.Contains(hideSpot)) list.Add(hideSpot);
 
             worldState.ChangeValue("TotalHideSpots", list);
@@ -76,7 +72,7 @@ public class RoomController : MonoBehaviour
             worldState.ChangeValue("RoomExits", exits);
 
             List<Access> list = worldState.GetValue<List<Access>>("TotalExits");
-            if (list == null) list = new List<Access>();
+            list ??= new List<Access>();
             foreach (Access exit in exits)
             {
                 if (!list.Contains(exit) && !exit.Room.Discovered)

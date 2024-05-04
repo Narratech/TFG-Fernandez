@@ -1,12 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
-using Unity.Sentis.Layers;
 using UnityEngine;
 using UnityEngine.AI;
-using static UnityEditor.Progress;
 
-public class SelectObject : Operator
+public class ClosestObject : Operator
 {
     private NavMeshAgent navMeshAgent;
     private string listKey;
@@ -14,7 +10,7 @@ public class SelectObject : Operator
 
     private List<Transform> objects;
 
-    public SelectObject(NavMeshAgent navMeshAgent, string listKey, string objectKey, WorldState worldState) : base(worldState)
+    public ClosestObject(NavMeshAgent navMeshAgent, string listKey, string objectKey, WorldState worldState) : base(worldState)
     {
         this.navMeshAgent = navMeshAgent;
         this.listKey = listKey;
