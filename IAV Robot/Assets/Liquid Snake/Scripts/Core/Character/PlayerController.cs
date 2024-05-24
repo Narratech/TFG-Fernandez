@@ -7,6 +7,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private NavMeshAgent navMeshAgent;
 
+    [SerializeField]
+    private Animator animator;
+
     private WorldState worldState;
     private Planner planner;
     private CompoundTask root;
@@ -281,6 +284,8 @@ public class PlayerController : MonoBehaviour
         return selector;
     }
 
+    private void OnFootstep(AnimationEvent animationEvent) { }
+
     private void Update()
     {
         Health health = GetComponent<Health>();
@@ -295,6 +300,10 @@ public class PlayerController : MonoBehaviour
         {
             planner.RunPlan();
         }
+
+        animator.SetBool(Animator.StringToHash("Grounded"), true);
+        animator.SetFloat(Animator.StringToHash("Speed"), navMeshAgent.velocity.magnitude / 2);
+        animator.SetFloat(Animator.StringToHash("MotionSpeed"), navMeshAgent.velocity.magnitude / 2);
     }
 
     public void Stop()

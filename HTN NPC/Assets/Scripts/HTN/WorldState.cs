@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,7 +18,7 @@ public class WorldState
         }
         else
         {
-            Debug.Log("This world state property already exist.");
+            Debug.Log(key + " :This world state property already exist.");
         }
     }
 
@@ -31,7 +30,7 @@ public class WorldState
         }
         else
         {
-            Debug.Log("This world state property does not exist.");
+            Debug.Log(key + " :This world state property does not exist.");
         }
     }
 
@@ -43,8 +42,18 @@ public class WorldState
         }
         else
         {
-            Debug.Log("This world state property does not exist.");
+            Debug.Log(key + " :This world state property does not exist.");
             return default;
         }
+    }
+
+    public Dictionary<string, object> GetDictionary()
+    {
+        return state;
+    }
+
+    public void SetDictionary(Dictionary<string, object> state)
+    {
+        this.state = state;
     }
 }

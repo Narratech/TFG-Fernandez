@@ -5,12 +5,9 @@ using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
-    public bool useHTN = true;
-
     public Transform[] wayPoints;
 
     private NavMeshAgent agent;
-    private BehaviorExecutor executor;
 
     private WorldState worldState;
     private Planner planner;
@@ -19,9 +16,6 @@ public class EnemyController : MonoBehaviour
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        executor = GetComponent<BehaviorExecutor>();
-
-        if (useHTN) executor.enabled = false;
 
         worldState = new WorldState();
 
@@ -38,6 +32,6 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
-        if (useHTN) planner.RunPlan();
+        planner.RunPlan();
     }
 }

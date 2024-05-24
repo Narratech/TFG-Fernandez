@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,7 +25,7 @@ public class PrimitiveTask : Task
         }
         else
         {
-            Debug.Log("This task effect already exist.");
+            Debug.Log(name + " :This task effect already exist.");
         }
     }
 

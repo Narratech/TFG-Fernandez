@@ -5,16 +5,10 @@ using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
-    public bool useHTN = true;
-
     public Transform[] wayPoints;
 
     private NavMeshAgent agent;
-    private BehaviorExecutor executor;
     private FieldOfView fov;
-
-    private Animator animator;
-    private AudioSource audioSource;
 
     private WorldState worldState;
     private Planner planner;
@@ -23,13 +17,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        executor = GetComponent<BehaviorExecutor>();
         fov = GetComponent<FieldOfView>();
-
-        animator = GetComponent<Animator>();
-        audioSource = GetComponent<AudioSource>();
-
-        if (useHTN) executor.enabled = false;
 
         worldState = new WorldState();
         worldState.AddProperty("enemyNear", false);
@@ -56,24 +44,9 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (useHTN) planner.RunPlan();
+        planner.RunPlan();
 
         worldState.ChangeValue("enemyNear", fov.FieldOfViewCheck());
         worldState.ChangeValue("target", fov.GetTarget());
-
-        bool isWalking = agent.velocity.magnitude > 0.1;
-        animator.SetBool("IsWalking", isWalking);
-
-        if (isWalking)
-        {
-            if (!audioSource.isPlaying)
-            {
-                audioSource.Play();
-            }
-        }
-        else
-        {
-            audioSource.Stop();
-        }
     }
 }

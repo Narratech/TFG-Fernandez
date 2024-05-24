@@ -17070,6 +17070,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   navMeshAgent: {fileID: 1300187583}
+  animator: {fileID: 1300187594}
 --- !u!195 &1300187583
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -17142,6 +17143,12 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 32
   m_CollisionDetection: 0
+--- !u!95 &1300187594 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5615815007780928290, guid: 7ae956b4f54394e80818898d8f4d30c6,
+    type: 3}
+  m_PrefabInstance: {fileID: 862200628}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1300317995
 MonoBehaviour:
   m_ObjectHideFlags: 0
