@@ -607,7 +607,7 @@ PrefabInstance:
     - target: {fileID: 705411915318757303, guid: ca88142e6222bd640834b5f3d0ad111a,
         type: 3}
       propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 705411915318757303, guid: ca88142e6222bd640834b5f3d0ad111a,
         type: 3}
@@ -4051,7 +4051,7 @@ PrefabInstance:
     - target: {fileID: 705411915318757303, guid: ca88142e6222bd640834b5f3d0ad111a,
         type: 3}
       propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 705411915318757303, guid: ca88142e6222bd640834b5f3d0ad111a,
         type: 3}
@@ -4877,7 +4877,7 @@ PrefabInstance:
     - target: {fileID: 705411915318757303, guid: ca88142e6222bd640834b5f3d0ad111a,
         type: 3}
       propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 705411915318757303, guid: ca88142e6222bd640834b5f3d0ad111a,
         type: 3}
@@ -6890,7 +6890,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: {fileID: 0}
-  hideSpot: {fileID: 0}
+  hideSpot: {fileID: 1152124249}
   exits:
   - {fileID: 8498335383706553775}
   - {fileID: 96809292}
@@ -7755,7 +7755,7 @@ PrefabInstance:
     - target: {fileID: 705411915318757303, guid: ca88142e6222bd640834b5f3d0ad111a,
         type: 3}
       propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 705411915318757303, guid: ca88142e6222bd640834b5f3d0ad111a,
         type: 3}
@@ -10779,7 +10779,7 @@ PrefabInstance:
     - target: {fileID: 705411915318757303, guid: ca88142e6222bd640834b5f3d0ad111a,
         type: 3}
       propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 705411915318757303, guid: ca88142e6222bd640834b5f3d0ad111a,
         type: 3}
@@ -20069,7 +20069,7 @@ PrefabInstance:
     - target: {fileID: 705411915318757303, guid: ca88142e6222bd640834b5f3d0ad111a,
         type: 3}
       propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 705411915318757303, guid: ca88142e6222bd640834b5f3d0ad111a,
         type: 3}
@@ -20759,7 +20759,7 @@ PrefabInstance:
     - target: {fileID: 705411915318757303, guid: ca88142e6222bd640834b5f3d0ad111a,
         type: 3}
       propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 705411915318757303, guid: ca88142e6222bd640834b5f3d0ad111a,
         type: 3}
@@ -32102,7 +32102,7 @@ PrefabInstance:
     - target: {fileID: 705411915318757303, guid: ca88142e6222bd640834b5f3d0ad111a,
         type: 3}
       propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 705411915318757303, guid: ca88142e6222bd640834b5f3d0ad111a,
         type: 3}

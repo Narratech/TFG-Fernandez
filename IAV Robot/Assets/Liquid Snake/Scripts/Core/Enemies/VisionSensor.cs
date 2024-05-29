@@ -55,6 +55,11 @@ namespace LiquidSnake.Enemies
         /// </summary>
         private GameObject _closestTarget;
 
+        private bool _detected = false;
+        private bool _count = false;
+        private float _time = 0.5f;
+        private float _timer = 0;
+
         //----------------------------------------------------------------------------
         //                      reación del Mesh de Cono de visión
         //----------------------------------------------------------------------------
@@ -114,6 +119,18 @@ namespace LiquidSnake.Enemies
             // TODO: Dar un poco más de control sobre frecuencia de detección y otros parámetros
             _closestTarget = DetectClosestTarget();
 
+            if (_count)
+            {
+                _timer += Time.deltaTime;
+                if (_timer >= _time)
+                {
+                    _timer = 0;
+                    _count = false;
+                    _detected = false;
+                    GameManager.Instance.TimesDetected--;
+                }
+            }
+
             // actualización de la apariencia del componente para reflejar si se ha encontrado algo o no
             _meshRenderer = GetComponent<MeshRenderer>();
             _meshRenderer.material = _closestTarget != null ? targetFoundMaterial : _defaultMaterial;
@@ -136,7 +153,10 @@ namespace LiquidSnake.Enemies
             Vector3 sightOrigin = transform.position + Vector3.up * verticalOffset;
 
             Collider[] colliders = Physics.OverlapSphere(transform.position, radius, targetMask);
-            if (colliders.Length <= 0) GameManager.Instance.TimesDetected--;
+            if (_detected && colliders.Length <= 0)
+            {
+                _count = true;
+            }
 
             foreach (Collider obj in colliders)
             {
@@ -154,7 +174,11 @@ namespace LiquidSnake.Enemies
 
                     if (!hitObstruction)
                     {
-                        GameManager.Instance.TimesDetected++;
+                        if (!_detected)
+                        {
+                            GameManager.Instance.TimesDetected++;
+                            _detected = true;
+                        }
 
                         // No hay nada que obstruya la visión desde nuestro punto hasta el objeto,
                         // y además la distancia al objeto en cuestión es menor que la mínima registrada.
@@ -164,6 +188,14 @@ namespace LiquidSnake.Enemies
                             minDistance = d; closest = obj.gameObject;
                         }
                     }
+                    else if (_detected)
+                    {
+                        _count = true;
+                    }
+                }
+                else if (_detected)
+                {
+                    _count = true;
                 }
             }
             return closest;

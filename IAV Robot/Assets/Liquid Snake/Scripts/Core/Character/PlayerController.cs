@@ -90,9 +90,9 @@ public class PlayerController : MonoBehaviour
         return moveTask;
     }
 
-    private PrimitiveTask Wait()
+    private PrimitiveTask Wait(float time)
     {
-        Wait wait = new Wait(1);
+        Wait wait = new Wait(time);
         PrimitiveTask waitTask = new PrimitiveTask();
         waitTask.SetOperator(wait);
 
@@ -105,7 +105,7 @@ public class PlayerController : MonoBehaviour
 
         PrimitiveTask moveTask = MoveToButton();
 
-        PrimitiveTask waitTask = Wait();
+        PrimitiveTask waitTask = Wait(1);
 
         sequence.AddTask(moveTask);
         sequence.AddTask(waitTask);
@@ -221,7 +221,6 @@ public class PlayerController : MonoBehaviour
         PrimitiveTask selectTask = SelectHealth();
 
         PrimitiveTask moveTask = MoveToHealth();
-        moveTask.AddCondition("CanHeal", true);
 
         sequence.AddTask(selectTask);
         sequence.AddTask(moveTask);
@@ -243,7 +242,7 @@ public class PlayerController : MonoBehaviour
         MoveTo moveToHealth = new MoveTo(navMeshAgent, "CurrentHideSpot", worldState);
         PrimitiveTask moveTask = new PrimitiveTask();
         moveTask.SetOperator(moveToHealth);
-        moveTask.AddCondition("CanHide", true);
+        moveTask.AddCondition("Detected", true);
 
         return moveTask;
     }
@@ -256,7 +255,7 @@ public class PlayerController : MonoBehaviour
 
         PrimitiveTask moveTask = MoveToHideSpot();
 
-        PrimitiveTask waitTask = Wait();
+        PrimitiveTask waitTask = Wait(2);
 
         sequence.AddTask(selectTask);
         sequence.AddTask(moveTask);
@@ -270,9 +269,11 @@ public class PlayerController : MonoBehaviour
         CompoundTask selector = new CompoundTask(CompoundType.Selector);
 
         CompoundTask healTask = GoToHealth();
+        healTask.AddCondition("CanHeal", true);
         healTask.AddCondition("LowHealth", true);
 
         CompoundTask hideTask = GoToHideSpot();
+        hideTask.AddCondition("CanHide", true);
         hideTask.AddCondition("Detected", true);
 
         CompoundTask goToEndTask = GoToEnd();
