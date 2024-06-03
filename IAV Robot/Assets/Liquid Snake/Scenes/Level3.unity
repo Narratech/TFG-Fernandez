@@ -1635,7 +1635,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: bca866285d379ce4cb7894e496b8fef5, type: 2}
+      objectReference: {fileID: 2100000, guid: 9e13f1370f2514f4ea7f303343a6d498, type: 2}
     - target: {fileID: 6096598370836680827, guid: a7889276ae15e5e4e98c2d2b879a7e74,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -13882,12 +13882,6 @@ MonoBehaviour:
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
---- !u!23 &983652583 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 4611548668141280690, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-    type: 3}
-  m_PrefabInstance: {fileID: 1659607939}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &985185794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14195,7 +14189,7 @@ MonoBehaviour:
   onAreaEntered:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6491769407369284817}
+      - m_Target: {fileID: 6491769407519659762}
         m_TargetAssemblyTypeName: LiquidSnake.LevelObjects.ToggleBarrier, Assembly-CSharp
         m_MethodName: ToggleLaser
         m_Mode: 1
@@ -17983,37 +17977,6 @@ MonoBehaviour:
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
---- !u!1 &1381830614
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1381830615}
-  m_Layer: 0
-  m_Name: ButtonPosition
-  m_TagString: Untagged
-  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1381830615
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1381830614}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 1.5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1659607940}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1389720725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18252,7 +18215,7 @@ MonoBehaviour:
   onAreaEntered:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6491769409021200014}
+      - m_Target: {fileID: 6491769407369284817}
         m_TargetAssemblyTypeName: LiquidSnake.LevelObjects.ToggleBarrier, Assembly-CSharp
         m_MethodName: ToggleLaser
         m_Mode: 1
@@ -22370,253 +22333,6 @@ MonoBehaviour:
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
---- !u!1001 &1659607939
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2057154117}
-    m_Modifications:
-    - target: {fileID: 121839304546151688, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 121839304546151688, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 121839304546151688, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 121839304546151688, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 121839304546151688, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 121839304546151688, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 121839304546151688, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2419616962832236228, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2419616962832236228, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2419616962832236228, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2419616962832236228, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2419616962832236228, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2419616962832236228, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2419616962832236228, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2419616962832236228, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2419616962832236228, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2419616962832236228, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3089438980042630270, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-        type: 3}
-      propertyPath: m_Name
-      value: GreenButton
-      objectReference: {fileID: 0}
-    - target: {fileID: 4611548668141280690, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 461c367c36d44b549969d815a6655d5c, type: 2}
-    - target: {fileID: 6096598370836680827, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6096598370836680827, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6096598370836680827, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6096598370836680827, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6096598370836680827, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6096598370836680827, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6096598370836680827, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 2419616962832236228, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1381830615}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3089438980042630270, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1659607943}
-    - targetCorrespondingSourceObject: {fileID: 3089438980042630270, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1659607944}
-    - targetCorrespondingSourceObject: {fileID: 3089438980042630270, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1659607942}
-  m_SourcePrefab: {fileID: 100100000, guid: a7889276ae15e5e4e98c2d2b879a7e74, type: 3}
---- !u!4 &1659607940 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2419616962832236228, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-    type: 3}
-  m_PrefabInstance: {fileID: 1659607939}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1659607941 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3089438980042630270, guid: a7889276ae15e5e4e98c2d2b879a7e74,
-    type: 3}
-  m_PrefabInstance: {fileID: 1659607939}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1659607942
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1659607941}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef129e01e2f7b834d89a6771ecf3e603, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  triggerAlways: 0
-  onAreaEntered:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6491769407519659762}
-        m_TargetAssemblyTypeName: LiquidSnake.LevelObjects.ToggleBarrier, Assembly-CSharp
-        m_MethodName: ToggleLaser
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 983652583}
-        m_TargetAssemblyTypeName: UnityEngine.Renderer, UnityEngine
-        m_MethodName: set_material
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 2100000, guid: c663c1ef3240d9b419354431013f17fe,
-            type: 2}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Material, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!65 &1659607943
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1659607941}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.5, y: 4, z: 1}
-  m_Center: {x: 0, y: 2, z: 1}
---- !u!114 &1659607944
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1659607941}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 695ae43e2b1c4f6488a61daf14c7c367, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  meshRenderer: {fileID: 983652583}
-  position: {fileID: 1381830615}
 --- !u!114 &1664046259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28383,7 +28099,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 9e13f1370f2514f4ea7f303343a6d498, type: 2}
+      objectReference: {fileID: 2100000, guid: 461c367c36d44b549969d815a6655d5c, type: 2}
     - target: {fileID: 6096598370836680827, guid: a7889276ae15e5e4e98c2d2b879a7e74,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -31166,10 +30882,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7928712942493029553, guid: 3bf7e38931121bb48b2ba13eac6baa48,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1659607940}
-    - targetCorrespondingSourceObject: {fileID: 7928712942493029553, guid: 3bf7e38931121bb48b2ba13eac6baa48,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1406430216}
     - targetCorrespondingSourceObject: {fileID: 7928712942493029553, guid: 3bf7e38931121bb48b2ba13eac6baa48,
         type: 3}
@@ -32839,7 +32551,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 461c367c36d44b549969d815a6655d5c, type: 2}
+      objectReference: {fileID: 2100000, guid: bca866285d379ce4cb7894e496b8fef5, type: 2}
     - target: {fileID: 6096598370836680827, guid: a7889276ae15e5e4e98c2d2b879a7e74,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -32924,7 +32636,7 @@ MonoBehaviour:
   onAreaEntered:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6491769407519659762}
+      - m_Target: {fileID: 6491769409021200014}
         m_TargetAssemblyTypeName: LiquidSnake.LevelObjects.ToggleBarrier, Assembly-CSharp
         m_MethodName: ToggleLaser
         m_Mode: 1
@@ -35298,7 +35010,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ae3a817564d19442b128c358a2c8a4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorType: 3
+  colorType: 2
   button: {fileID: 1946599927}
   accesses:
   - {fileID: 988704246437855024}
@@ -35323,8 +35035,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ae3a817564d19442b128c358a2c8a4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorType: 2
-  button: {fileID: 1010054959}
+  colorType: 0
+  button: {fileID: 1422234015}
   accesses:
   - {fileID: 988704246271585167}
   - {fileID: 8498335383201732880}
@@ -35349,7 +35061,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colorType: 1
-  button: {fileID: 2129257232}
+  button: {fileID: 1010054959}
   accesses:
   - {fileID: 988704246121345452}
   - {fileID: 8498335383352034099}
@@ -35373,7 +35085,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ae3a817564d19442b128c358a2c8a4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorType: 3
+  colorType: 2
   button: {fileID: 1946599927}
   accesses:
   - {fileID: 988704246626753427}
@@ -35398,8 +35110,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ae3a817564d19442b128c358a2c8a4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorType: 0
-  button: {fileID: 1422234015}
+  colorType: 3
+  button: {fileID: 2129257232}
   accesses:
   - {fileID: 988704247958364624}
   toggleTime: 0.75

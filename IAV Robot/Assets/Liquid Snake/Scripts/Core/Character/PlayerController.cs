@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
 
         worldState.AddProperty("Detected", false);
         worldState.AddProperty("CanHide", false);
+        worldState.AddProperty("Detected&Hide", false);
 
         worldState.AddProperty("TotalHideSpots", null);
         worldState.AddProperty("CurrentHideSpot", null);
@@ -120,7 +121,7 @@ public class PlayerController : MonoBehaviour
         CompoundTask moveTask = GoToButton();
         moveTask.AddCondition("CanButton", true);
         moveTask.AddCondition("LowHealth", false);
-        moveTask.AddCondition("Detected", false);
+        moveTask.AddCondition("Detected&Hide", false);
 
         PrimitiveTask selectTask = SelectDestination();
         selectTask.AddCondition("CanButton", false);
@@ -155,7 +156,7 @@ public class PlayerController : MonoBehaviour
         PrimitiveTask gateTask = MoveToDestination();
         gateTask.AddCondition("IsDoor", false);
         gateTask.AddCondition("LowHealth", false);
-        gateTask.AddCondition("Detected", false);
+        gateTask.AddCondition("Detected&Hide", false);
 
         selector.AddTask(doorTask);
         selector.AddTask(gateTask);
@@ -296,6 +297,7 @@ public class PlayerController : MonoBehaviour
         }
 
         worldState.ChangeValue("Detected", GameManager.Instance.TimesDetected > 0);
+        worldState.ChangeValue("Detected&Hide", worldState.GetValue<bool>("Detected") && worldState.GetValue<bool>("CanHide"));
 
         if (planning)
         {
